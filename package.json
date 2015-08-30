@@ -1,0 +1,22 @@
+{
+  "name": "hostel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^2.9.34",
+    "cheerio": "^0.19.0",
+    "crawler": "^0.4.3",
+    "express": "^4.13.3",
+    "fs": "0.0.2",
+    "parse-address": "0.0.4",
+    "request": "^2.61.0",
+    "simplecrawler": "^0.5.2",
+    "spider": "^0.1.0"
+  }
+}

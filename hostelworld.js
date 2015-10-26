@@ -9,8 +9,8 @@ var countries = require('countries-list');
 var exports = module.exports = {};
 
 exports.rootUrl = 'hostelworld.com';
-exports.initialPath = '/hostels';
-exports.fetchExclude =  /\/news-and-events|\/forum|\/guides|\/blog|\/hotels|\/bed-and-breakfasts|\/videos|\/podcasts|\/myworld|reviews$|directions$/i;
+exports.initialPath = '/hosteldetails.php/Hotel-le-Brasilia/Montpellier/33398';
+exports.fetchExclude =  /\/news-and-events|\/forum|\/guides|\/blog|\/hotels|\/bed-and-breakfasts|\/videos|\/podcasts|\/myworld|reviews$|directions$|\/travel-features|\/latest-news/i;
 
 exports.process = function (url) {
 
@@ -21,13 +21,13 @@ exports.process = function (url) {
     hostel.name = $('.main h1').text().trim();
     hostel.country = $('#hbg_country').val();
     hostel.city = $('#hbg_city').val();
-    hostel.rating = parseInt($('.microratingpanel h3').text().replace(/\%Rating/gi, ''));
-    hostel.reviews = parseInt($('.numreviews a').text().trim().replace(/\sTotal\sReviews?/gi, ''));
+    hostel.rating = parseInt($('.microratingpanel h3').text().replace(/\%Rating/gi, ''), 10);
+    hostel.rating = isNaN(hostel.rating) ? 0 : hostel.rating;
+    hostel.reviews = parseInt($('.numreviews a').text().trim().replace(/\sTotal\sReviews?/gi, ''), 10);
+    hostel.reviews = isNaN(hostel.reviews) ? 0 : hostel.reviews;
     hostel.date_created = new Date();
     hostel.source = 'hostelworld.com';
     hostel.hostelworld_link = url;
-
-    console.log(hostel);
 
     knex('hostelworld')
     .where({

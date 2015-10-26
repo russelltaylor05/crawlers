@@ -1,5 +1,5 @@
 var cheerio = require('cheerio');
-var url = require('url');
+var url     = require('url');
 
 var StringDecoder = require('string_decoder').StringDecoder;
 var Crawler = require("simplecrawler").Crawler;
@@ -10,8 +10,8 @@ var links = [];
 var myCrawler = new Crawler(currentHostel.rootUrl);
 var debug = false;
 
-myCrawler.interval = 250;
-myCrawler.maxConcurrency = 2;
+myCrawler.interval = 200;
+myCrawler.maxConcurrency = 4;
 myCrawler.timeout = 1000;
 myCrawler.fetchWhitelistedMimeTypesBelowMaxDepth = false;
 myCrawler.initialPath = currentHostel.initialPath;
@@ -26,7 +26,7 @@ if (debug) {
 }
 
 myCrawler.addFetchCondition (function (url) {
-    return ! url.path.match( /\.png|\.css|\.jpeg|\.js|\.jpg|\.ico|\.gif|\.zip|\.mp3/i );
+    return ! url.path.match( /\.png|\.css|\.jpeg|\.js|\.jpg|\.ico|\.gif|\.zip|\.mp3|\.pdf/i );
 });
 
 

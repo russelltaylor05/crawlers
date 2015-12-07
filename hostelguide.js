@@ -6,6 +6,8 @@ var knex = require('knex')({
 });
 var countries = require('countries-list');
 
+
+
 var exports = module.exports = {};
 
 exports.rootUrl = 'hostelguide.de';

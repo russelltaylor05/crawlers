@@ -4,7 +4,7 @@ var url     = require('url');
 var StringDecoder = require('string_decoder').StringDecoder;
 var Crawler = require("simplecrawler").Crawler;
 
-var currentHostel = require('./hostelworld');
+var currentHostel = require('./topmommyblogs');
 
 var links = [];
 var myCrawler = new Crawler(currentHostel.rootUrl);

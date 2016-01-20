@@ -1,18 +1,11 @@
-var pg = require('pg');
-var conString = "postgres://russelltaylor:@localhost:5432/hostels";
-var knex = require('knex')({
-  client: 'pg',
-  connection: conString,
-});
-var countries = require('countries-list');
+var knex        = require('../db').knex;
+var countries   = require('countries-list');
+var exports     = module.exports = {};
 
+exports.rootUrl       = 'hostelguide.de';
+exports.initialPath   = '';
+exports.fetchExclude  = /\/blog|\/forum|\/user|\/trackback|\/node/i;
 
-
-var exports = module.exports = {};
-
-exports.rootUrl = 'hostelguide.de';
-exports.initialPath = '';
-exports.fetchExclude = /\/blog|\/forum|\/user|\/trackback|\/node/i;
 
 exports.process = function() {
 

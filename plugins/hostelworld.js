@@ -1,16 +1,10 @@
-var pg = require('pg');
-var conString = "postgres://russelltaylor:@localhost:5432/hostels";
-var knex = require('knex')({
-  client: 'pg',
-  connection: conString,
-});
-var countries = require('countries-list');
+var knex        = require('../db').knex;
+var countries   = require('countries-list');
+var exports     = module.exports = {};
 
-var exports = module.exports = {};
-
-exports.rootUrl = 'hostelworld.com';
-exports.initialPath = '/hosteldetails.php/Hotel-le-Brasilia/Montpellier/33398';
-exports.fetchExclude =  /\/news-and-events|\/forum|\/guides|\/blog|\/hotels|\/bed-and-breakfasts|\/videos|\/podcasts|\/myworld|reviews$|directions$|\/travel-features|\/latest-news/i;
+exports.rootUrl       = 'hostelworld.com';
+exports.initialPath   = '/hosteldetails.php/Hotel-le-Brasilia/Montpellier/33398';
+exports.fetchExclude  =  /\/news-and-events|\/forum|\/guides|\/blog|\/hotels|\/bed-and-breakfasts|\/videos|\/podcasts|\/myworld|reviews$|directions$|\/travel-features|\/latest-news/i;
 
 exports.process = function (url) {
 
@@ -46,9 +40,7 @@ exports.process = function (url) {
     })
     .catch(function (error) {
       console.log(error);
-    })
-
-
+    });
 
   };
 };

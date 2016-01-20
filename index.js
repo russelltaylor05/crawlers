@@ -1,27 +1,22 @@
-var cheerio = require('cheerio');
-var url     = require('url');
+var cheerio         = require('cheerio');
+var Crawler         = require("simplecrawler").Crawler;
+var StringDecoder   = require('string_decoder').StringDecoder;
 
-var StringDecoder = require('string_decoder').StringDecoder;
-var Crawler = require("simplecrawler").Crawler;
+var plugin          = require('./plugins/topmommyblogs');
+var myCrawler       = new Crawler(plugin.rootUrl);
+var DEBUG           = false;
 
-var currentHostel = require('./topmommyblogs');
+myCrawler.interval                                = 200;
+myCrawler.maxConcurrency                          = 4;
+myCrawler.timeout                                 = 1000;
+myCrawler.fetchWhitelistedMimeTypesBelowMaxDepth  = false;
+myCrawler.initialPath                             = plugin.initialPath;
 
-var links = [];
-var myCrawler = new Crawler(currentHostel.rootUrl);
-var debug = false;
-
-myCrawler.interval = 200;
-myCrawler.maxConcurrency = 4;
-myCrawler.timeout = 1000;
-myCrawler.fetchWhitelistedMimeTypesBelowMaxDepth = false;
-myCrawler.initialPath = currentHostel.initialPath;
-
-
-if (debug) {
+if (DEBUG) {
   var originalEmit = myCrawler.emit;
   myCrawler.emit = function(evt, q) {
-      console.log(evt, q && q.url || "No URL");
-      originalEmit.apply(myCrawler, arguments);
+    console.log(evt, q && q.url || "No URL");
+    originalEmit.apply(myCrawler, arguments);
   }
 }
 
@@ -29,16 +24,13 @@ myCrawler.addFetchCondition (function (url) {
     return ! url.path.match( /\.png|\.css|\.jpeg|\.js|\.jpg|\.ico|\.gif|\.zip|\.mp3|\.pdf/i );
 });
 
-
 myCrawler.addFetchCondition (function (url) {
-  if (currentHostel.fetchExclude) {
-    return ! url.path.match(currentHostel.fetchExclude);
+  if (plugin.fetchExclude) {
+    return ! url.path.match(plugin.fetchExclude);
   }
 });
 
-
 myCrawler.on("fetcherror", function(queueItem, response) {
-  console.log("ERROR");
   console.log(queueItem);
 });
 
@@ -47,14 +39,14 @@ myCrawler.on("fetchstart", function(queueItem, requestOptions) {
 });
 
 myCrawler.on("fetchcomplete", function(queueItem, data, response) {
-    console.log("%s (%d bytes)", queueItem.url, data.length);
-    //console.log("It was a resource of type %s", response.headers['content-type']);
+    
+    console.log("%s (%d bytes)", queueItem.url, data.length); 
 
     if(response.headers['content-type'].indexOf('text/html') >= 0) {
       var decoder = new StringDecoder('utf8');
       rawHtml = decoder.write(data);
       $ = cheerio.load(rawHtml);
-      currentHostel.process(queueItem.url);
+      plugin.process(queueItem.url);
     }
 });
 

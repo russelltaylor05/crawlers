@@ -1,16 +1,9 @@
-var pg = require('pg');
-var conString = "postgres://russelltaylor:@localhost:5432/hostels";
-var knex = require('knex')({
-  client: 'pg',
-  connection: conString,
-});
-
+var knex    = require('knex').knex;
 var exports = module.exports = {};
 
-exports.rootUrl = 'hostelmanagement.com';
-exports.initialPath = '/hostels';
-exports.fetchExclude = /\/blog|\/forum|\/user|\/trackback|\/node/i;
-
+exports.rootUrl       = 'hostelmanagement.com';
+exports.initialPath   = '/hostels';
+exports.fetchExclude  = /\/blog|\/forum|\/user|\/trackback|\/node/i;
 
 exports.process = function() {
 
@@ -44,7 +37,7 @@ exports.process = function() {
     })
     .catch(function (error) {
       console.log(error);
-    })
+    });
 
   }
 
